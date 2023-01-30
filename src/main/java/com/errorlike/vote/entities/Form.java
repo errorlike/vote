@@ -23,7 +23,7 @@ public class Form {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(length = 50,nullable = false)
+    @Column(length = 50, nullable = false)
     private String name;
     private int duration;
     private LocalDateTime createTime;
