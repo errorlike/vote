@@ -30,7 +30,7 @@ public class Participation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "user_id" )
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)

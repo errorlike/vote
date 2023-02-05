@@ -1,6 +1,5 @@
 package com.errorlike.vote.entities;
 
-import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -21,12 +20,12 @@ public class ParticipationResult {
     @EmbeddedId
     private ParticipationResultKey participationResultKey;
     @MapsId("participationId")
+    @ManyToOne
     @JoinColumn(name = "participation_id")
-    @ManyToOne(cascade = CascadeType.ALL)
     private Participation participation;
-    @MapsId("question_option_id")
-    @JoinColumn(name = "qustion_option_id")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @MapsId("questionOptionId")
+    @ManyToOne
+    @JoinColumn(name = "question_option_id")
     private QuestionOption questionOption;
 
 }
