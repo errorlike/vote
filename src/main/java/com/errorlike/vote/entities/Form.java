@@ -1,12 +1,11 @@
 package com.errorlike.vote.entities;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -24,7 +23,11 @@ public class Form {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(length = 50, nullable = false)
+    @NotBlank(message = "The name cannot be empty")
     private String name;
-    private int duration;
     private LocalDateTime createTime;
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "form")
+    private List<Question> questions;
+    @Min(1)
+    private int duration;
 }
