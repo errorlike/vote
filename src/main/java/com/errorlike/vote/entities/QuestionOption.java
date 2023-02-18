@@ -1,16 +1,9 @@
 package com.errorlike.vote.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -23,4 +16,9 @@ public class QuestionOption {
     private Long id;
     @Column(length = 50)
     private String name;
+
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(name = "question_option_id", referencedColumnName = "id", nullable = false)
+    @JsonIgnore
+    private Question question;
 }

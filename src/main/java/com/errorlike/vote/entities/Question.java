@@ -1,14 +1,12 @@
 package com.errorlike.vote.entities;
 
-import java.util.List;
+import com.errorlike.vote.utils.QuestionType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-
-import com.errorlike.vote.utils.QuestionType;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -23,12 +21,11 @@ public class Question {
     @Column(length = 50)
     @NotBlank(message = "The name cannot be empty")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER )
-    @JoinColumn(name = "question_option_id", referencedColumnName = "id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "question", orphanRemoval = true)
     private List<QuestionOption> questionOptions;
-
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "form_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "form_id", referencedColumnName = "id", nullable = false)
     @JsonIgnore
     private Form form;
 }
+
