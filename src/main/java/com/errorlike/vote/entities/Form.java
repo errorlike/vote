@@ -26,7 +26,7 @@ public class Form {
     @NotBlank(message = "The name cannot be empty")
     private String name;
     private LocalDateTime createTime;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "form")
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "form", orphanRemoval = true)
     private List<Question> questions;
     @Min(1)
     private int duration;
