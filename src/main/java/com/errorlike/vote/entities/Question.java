@@ -17,7 +17,7 @@ import lombok.*;
 @Builder
 public class Question {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private QuestionType questionType;
     @Column(length = 50)

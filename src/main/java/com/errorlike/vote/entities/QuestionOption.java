@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class QuestionOption {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(length = 50)
     private String name;
