@@ -25,4 +25,9 @@ public class QuestionService {
         questions.forEach(question -> question.setForm(form.orElseThrow()));
         return questionRepository.saveAll(questions);
     }
+
+    public Question getQuestionById(long id) {
+        Optional<Question> question = questionRepository.findById(id);
+        return question.orElseThrow();
+    }
 }

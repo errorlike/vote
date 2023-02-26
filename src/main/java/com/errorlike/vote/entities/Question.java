@@ -3,6 +3,7 @@ package com.errorlike.vote.entities;
 import com.errorlike.vote.utils.QuestionType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.apache.commons.lang3.builder.ToStringExclude;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -26,6 +27,6 @@ public class Question {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "form_id", referencedColumnName = "id", nullable = false)
     @JsonIgnore
+    @ToStringExclude
     private Form form;
 }
-
