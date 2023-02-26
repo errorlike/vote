@@ -45,7 +45,7 @@ public class AuthenticationController {
 
         } catch (DataIntegrityViolationException e) {
             log.error(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "重复的用户名或邮箱", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "duplicate username or email address", e);
         }
         // todo chang body content to message
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
