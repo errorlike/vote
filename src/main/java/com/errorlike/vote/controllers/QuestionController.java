@@ -19,9 +19,15 @@ public class QuestionController {
 
     @PostMapping()
     public ResponseEntity<?> create(@Valid @RequestBody(required = true) List<Question> questions,
-            @PathVariable("formId") long id) {
+                                    @PathVariable("formId") long id) {
         List<Question> savedQuestions = questionService.createQuestions(questions, id);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedQuestions);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getQuestionsByFormId(@PathVariable("formId") long formId) {
+        List<Question> questions = questionService.getByFormId(formId);
+        return ResponseEntity.ok(questions);
     }
 
     @GetMapping(value = "/{questionId}")
