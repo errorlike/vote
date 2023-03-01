@@ -1,5 +1,7 @@
 package com.errorlike.vote.entities;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -27,5 +29,6 @@ public class ParticipationResult {
     @ManyToOne
     @JoinColumn(name = "question_option_id")
     private QuestionOption questionOption;
+    LocalDateTime createTime;
 
 }
