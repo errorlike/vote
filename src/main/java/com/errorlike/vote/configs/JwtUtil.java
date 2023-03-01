@@ -31,18 +31,19 @@ public class JwtUtil {
     }
 
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        return generateToken(new HashMap<>(), userDetails, 1000 * 60 * 60);
     }
 
     public String generateToken(
             Map<String, Object> extraClaims,
-            UserDetails userDetails) {
+            UserDetails userDetails,
+            int tokenDuration) {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + tokenDuration))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

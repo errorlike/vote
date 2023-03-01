@@ -1,10 +1,12 @@
 package com.errorlike.vote.controllers;
 
-import java.time.LocalDateTime;
-import java.util.Map;
-
-import javax.validation.Valid;
-
+import com.errorlike.vote.entities.User;
+import com.errorlike.vote.models.RefreshRequest;
+import com.errorlike.vote.models.RegisterUser;
+import com.errorlike.vote.models.loginRequest;
+import com.errorlike.vote.services.AuthenticationService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.errorlike.vote.entities.User;
-import com.errorlike.vote.models.RegisterUser;
-import com.errorlike.vote.models.loginRequest;
-import com.errorlike.vote.services.AuthenticationService;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -33,13 +31,7 @@ public class AuthenticationController {
 
     @PostMapping(value = "/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterUser registerUser) {
-        User user = User.builder()
-                .age(registerUser.getAge())
-                .username(registerUser.getUsername())
-                .passwordHash(passwordEncoder.encode(registerUser.getPassword()))
-                .email(registerUser.getEmail())
-                .createTime(LocalDateTime.now().withNano(0))
-                .build();
+        User user = User.builder().age(registerUser.getAge()).username(registerUser.getUsername()).passwordHash(passwordEncoder.encode(registerUser.getPassword())).email(registerUser.getEmail()).createTime(LocalDateTime.now().withNano(0)).build();
         try {
             authenticationService.register(user);
 
@@ -53,9 +45,14 @@ public class AuthenticationController {
 
     @PostMapping(value = "/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody loginRequest loginRequest) {
-        Map<String, Object> userMap = authenticationService.login(loginRequest.getUsername(),
-                loginRequest.getPassword());
+        Map<String, Object> userMap = authenticationService.login(loginRequest.getUsername(), loginRequest.getPassword());
         return ResponseEntity.ok(userMap);
+    }
+
+    @PostMapping(value = "/refreshToken")
+    public ResponseEntity<?> refreshToken(@Valid @RequestBody RefreshRequest refreshRequest) {
+        Map<String, String> accessToken = authenticationService.refreshToken(refreshRequest.getRefreshToken());
+        return ResponseEntity.ok(accessToken);
     }
 
 }
