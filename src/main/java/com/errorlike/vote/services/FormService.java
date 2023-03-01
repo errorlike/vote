@@ -3,16 +3,14 @@ package com.errorlike.vote.services;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.errorlike.vote.entities.Question;
-import com.errorlike.vote.entities.QuestionOption;
-import com.errorlike.vote.repositories.QuestionOptionRepository;
-import com.errorlike.vote.repositories.QuestionRepository;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.errorlike.vote.entities.Form;
+import com.errorlike.vote.entities.Question;
+import com.errorlike.vote.entities.QuestionOption;
 import com.errorlike.vote.repositories.FormRepository;
+import com.errorlike.vote.repositories.QuestionRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 public class FormService {
     private final FormRepository formRepository;
     private final QuestionRepository questionRepository;
-    private final QuestionOptionRepository questionOptionRepository;
     public Form createNewForm(Form form) {
         form.setCreateTime(LocalDateTime.now().withNano(0));
         Form savedForm = formRepository.save(form);
