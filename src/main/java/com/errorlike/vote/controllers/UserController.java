@@ -25,15 +25,14 @@ public class UserController {
     @GetMapping()
     public ResponseEntity<?> getUsers(@RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "5") Integer size) {
-        PageRequest paging = PageRequest.of(page, size);
+        PageRequest paging = PageRequest.of(page, size) ;
         Page<User> users = userRepository.findAll(paging);
         return ResponseEntity.ok(users);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable String id) {
-
-        Optional<User> user = userRepository.findById(Long.valueOf(id));
+    public ResponseEntity<?> getUserById(@PathVariable long id) {
+        Optional<User> user = userRepository.findById(id);
         return ResponseEntity.ok(user.orElseThrow());
     }
 
