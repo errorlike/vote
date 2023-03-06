@@ -1,34 +1,26 @@
 package com.errorlike.vote.entities;
 
+import lombok.*;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
-
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
-
+@Builder
 public class ParticipationResult {
     @EmbeddedId
     private ParticipationResultKey participationResultKey;
     @MapsId("participationId")
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "participation_id")
     private Participation participation;
     @MapsId("questionOptionId")
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "question_option_id")
     private QuestionOption questionOption;
-    LocalDateTime createTime;
+    private LocalDateTime createTime;
 
 }

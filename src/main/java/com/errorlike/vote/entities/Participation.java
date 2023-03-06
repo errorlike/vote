@@ -2,26 +2,19 @@ package com.errorlike.vote.entities;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@Builder
 @Entity
 @Data
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
-@Table(uniqueConstraints = {
-        @UniqueConstraint(columnNames = { "user_id", "form_id" })
+@NoArgsConstructor
+@Getter
+@Setter
+@Table(name = "Participation", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"user_id", "form_id"})
 })
 public class Participation {
 
@@ -29,11 +22,11 @@ public class Participation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "form_id")
+    @JoinColumn(name = "form_id",nullable = false)
     private Form form;
 
     private LocalDateTime participationTime;
