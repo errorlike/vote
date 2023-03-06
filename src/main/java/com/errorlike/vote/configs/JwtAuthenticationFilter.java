@@ -1,19 +1,22 @@
 package com.errorlike.vote.configs;
 
-import com.errorlike.vote.services.JpaUserDetailService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
+import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.errorlike.vote.models.SecurityUser;
+import com.errorlike.vote.services.JpaUserDetailService;
+
+import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
@@ -34,10 +37,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         token = authHeader.substring(7);
         username = jwtUtil.extractUsername(token);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = jpaUserDetailService.loadUserByUsername(username);
-            if (jwtUtil.isTokenValid(token, userDetails)) {
-                UsernamePasswordAuthenticationToken autToken = new UsernamePasswordAuthenticationToken(userDetails,
-                        null, userDetails.getAuthorities());
+            SecurityUser securityUser = jpaUserDetailService.loadUserByUsername(username);
+            if (jwtUtil.isTokenValid(token, securityUser)) {
+                UsernamePasswordAuthenticationToken autToken = new UsernamePasswordAuthenticationToken(securityUser,
+                        null, securityUser.getAuthorities());
                 autToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(autToken);
             }

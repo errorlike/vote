@@ -2,15 +2,13 @@ package com.errorlike.vote.models;
 
 import java.util.Collection;
 
-import com.errorlike.vote.entities.User;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import lombok.Data;
+import com.errorlike.vote.entities.User;
+
 import lombok.RequiredArgsConstructor;
 
-@Data
 @RequiredArgsConstructor
 public class SecurityUser implements UserDetails {
     private final User user;
@@ -49,5 +47,9 @@ public class SecurityUser implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public long id;
+    public long getId(){return user.getId();};
+
 
 }
