@@ -1,9 +1,9 @@
 package com.errorlike.vote.controllers;
 
 import com.errorlike.vote.entities.User;
+import com.errorlike.vote.models.LoginRequest;
 import com.errorlike.vote.models.RefreshRequest;
 import com.errorlike.vote.models.RegisterUser;
-import com.errorlike.vote.models.loginRequest;
 import com.errorlike.vote.services.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +44,7 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody loginRequest loginRequest) {
+    public ResponseEntity<Map<String, Object>> login(@RequestBody LoginRequest loginRequest) {
         Map<String, Object> userMap = authenticationService.login(loginRequest.getUsername(), loginRequest.getPassword());
         return ResponseEntity.ok(userMap);
     }
