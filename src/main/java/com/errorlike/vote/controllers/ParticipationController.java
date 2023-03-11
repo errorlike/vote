@@ -1,26 +1,19 @@
 package com.errorlike.vote.controllers;
 
-import java.util.List;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import com.errorlike.vote.dtos.ParticipationWithFormId;
 import com.errorlike.vote.entities.Participation;
 import com.errorlike.vote.entities.ParticipationResult;
 import com.errorlike.vote.models.ParticipationRequest;
 import com.errorlike.vote.models.SecurityUser;
-import com.errorlike.vote.services.FormService;
 import com.errorlike.vote.services.ParticipationResultService;
 import com.errorlike.vote.services.ParticipationService;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/participations")
@@ -43,17 +36,22 @@ public class ParticipationController {
     }
 
     @GetMapping()
-    public ResponseEntity<?> getAll() {
-        List<Participation> participations = participationService.getAll();
-        return ResponseEntity.ok(participations);
+    public ResponseEntity<?> get(@RequestParam(required = false) Long userId) {
+        if (userId != null) {
+            List<ParticipationWithFormId> participationWithFormIds = participationService.getByUserId(userId);
+            return ResponseEntity.ok(participationWithFormIds);
+
+        } else {
+            List<Participation> participations = participationService.getAll();
+            return ResponseEntity.ok(participations);
+        }
 
     }
 
     @PostMapping("/{participationId}/participationResults")
     public ResponseEntity<?> createParticipationResults(@PathVariable long participationId, @RequestBody List<Long> questionOptionIds) {
         List<ParticipationResult> participationResults = participationResultService.createAll(participationId, questionOptionIds);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(participationResults);
-
     }
+
 }
