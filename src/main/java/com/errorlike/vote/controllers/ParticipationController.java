@@ -1,6 +1,6 @@
 package com.errorlike.vote.controllers;
 
-import com.errorlike.vote.dtos.ParticipationWithFormId;
+import com.errorlike.vote.dtos.ParticipationWithFormIdProjection;
 import com.errorlike.vote.entities.Participation;
 import com.errorlike.vote.entities.ParticipationResult;
 import com.errorlike.vote.models.ParticipationRequest;
@@ -38,9 +38,8 @@ public class ParticipationController {
     @GetMapping()
     public ResponseEntity<?> get(@RequestParam(required = false) Long userId) {
         if (userId != null) {
-            List<ParticipationWithFormId> participationWithFormIds = participationService.getByUserId(userId);
+            List<ParticipationWithFormIdProjection> participationWithFormIds = participationService.getByUserId(userId);
             return ResponseEntity.ok(participationWithFormIds);
-
         } else {
             List<Participation> participations = participationService.getAll();
             return ResponseEntity.ok(participations);

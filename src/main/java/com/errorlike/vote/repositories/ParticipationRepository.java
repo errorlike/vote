@@ -1,6 +1,6 @@
 package com.errorlike.vote.repositories;
 
-import com.errorlike.vote.dtos.ParticipationWithFormId;
+import com.errorlike.vote.dtos.ParticipationWithFormIdProjection;
 import com.errorlike.vote.entities.Participation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ParticipationRepository extends JpaRepository<Participation, Long> {
-    List<ParticipationWithFormId> findByUser_Id(Long id);
 
     @Query("""
              select
@@ -21,6 +20,9 @@ public interface ParticipationRepository extends JpaRepository<Participation, Lo
             where
             	p.user.id = :userId
             	""")
-    List<ParticipationWithFormId> findParticipationWithFormIdByUserId(@Param("userId") long userId);
+    List<ParticipationWithFormIdProjection> findParticipationWithFormIdByUserId(@Param("userId") long userId);
+
+    int countByForm_Id(Long id);
+
 
 }

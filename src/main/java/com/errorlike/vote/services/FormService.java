@@ -1,18 +1,16 @@
 package com.errorlike.vote.services;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.errorlike.vote.entities.Form;
 import com.errorlike.vote.entities.Question;
 import com.errorlike.vote.entities.QuestionOption;
 import com.errorlike.vote.repositories.FormRepository;
 import com.errorlike.vote.repositories.QuestionRepository;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,8 +26,10 @@ public class FormService {
             questions.forEach(question -> {
                 question.setForm(form);
                 List<QuestionOption> questionOptions = question.getQuestionOptions();
-                if(questionOptions !=null && questionOptions.size()!=0){
-                    questionOptions.forEach(questionOption -> {questionOption.setQuestion(question);});
+                if(questionOptions !=null && questionOptions.size()!=0) {
+                    questionOptions.forEach(questionOption -> {
+                        questionOption.setQuestion(question);
+                    });
                 }
             });
             questionRepository.saveAll(questions);

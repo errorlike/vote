@@ -3,7 +3,7 @@ package com.errorlike.vote.dtos;
 import java.time.LocalDateTime;
 
 
-public interface ParticipationWithFormId {
+public interface ParticipationWithFormIdProjection {
 
     Long getId();
 

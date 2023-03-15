@@ -1,6 +1,6 @@
 package com.errorlike.vote.services;
 
-import com.errorlike.vote.dtos.ParticipationWithFormId;
+import com.errorlike.vote.dtos.ParticipationWithFormIdProjection;
 import com.errorlike.vote.entities.Form;
 import com.errorlike.vote.entities.Participation;
 import com.errorlike.vote.entities.User;
@@ -36,7 +36,7 @@ public class ParticipationService {
         return participationRepository.findAll();
     }
 
-    public List<ParticipationWithFormId> getByUserId(long userId) {
+    public List<ParticipationWithFormIdProjection> getByUserId(long userId) {
         return participationRepository.findParticipationWithFormIdByUserId(userId);
     }
 }
