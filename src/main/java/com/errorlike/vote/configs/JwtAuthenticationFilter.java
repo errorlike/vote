@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -16,6 +17,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.errorlike.vote.models.SecurityUser;
 import com.errorlike.vote.services.JpaUserDetailService;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -35,15 +38,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         token = authHeader.substring(7);
-        username = jwtUtil.extractUsername(token);
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            SecurityUser securityUser = jpaUserDetailService.loadUserByUsername(username);
-            if (jwtUtil.isTokenValid(token, securityUser)) {
-                UsernamePasswordAuthenticationToken autToken = new UsernamePasswordAuthenticationToken(securityUser,
-                        null, securityUser.getAuthorities());
-                autToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(autToken);
+        try {
+            username = jwtUtil.extractUsername(token);
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                SecurityUser securityUser = jpaUserDetailService.loadUserByUsername(username);
+                if (jwtUtil.isTokenValid(token, securityUser)) {
+                    UsernamePasswordAuthenticationToken autToken = new UsernamePasswordAuthenticationToken(securityUser,
+                            null, securityUser.getAuthorities());
+                    autToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(autToken);
+                }
             }
+        } catch (ExpiredJwtException exception) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.getWriter().write("{\"message\": \" expired JWT token\"}");
+            return;
+        }catch(SignatureException exception){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.getWriter().write("{\"message\": \"Invalid JWT token\"}");
+            return;
         }
         filterChain.doFilter(request, response);
     }
