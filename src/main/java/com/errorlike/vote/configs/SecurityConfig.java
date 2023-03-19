@@ -50,7 +50,7 @@ public class SecurityConfig {
         return http
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeRequests(auth -> auth
+                .authorizeHttpRequests(auth -> auth
                         .mvcMatchers("/auth/**").permitAll()
                         .anyRequest()
                         .authenticated())
