@@ -6,8 +6,7 @@ import lombok.Value;
 @Builder
 @Value
 public class StatisticsForBarChartDTO {
-    String questionName;
     String questionOptionName;
     int percentage;
-
+    int selectedPerson;
 }

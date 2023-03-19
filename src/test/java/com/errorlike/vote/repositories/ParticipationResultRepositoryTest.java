@@ -17,7 +17,6 @@ class ParticipationResultRepositoryTest {
         List<StatisticsForBarChartProjection> statisticsForBarChartProjection = participationResultRepository.getStatisticsForBarChartData(6L);
       statisticsForBarChartProjection.forEach(
               item-> {
-                  System.out.println(item.getQuestionName());
                   System.out.println(item.getQuestionOptionName());
                   System.out.println(item.getSelectedNumber());
               }

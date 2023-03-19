@@ -11,16 +11,14 @@ import java.util.List;
 public interface ParticipationResultRepository extends JpaRepository<ParticipationResult, ParticipationResultKey> {
     List<ParticipationResult> findByParticipationId(Long id);
 
-
     @Query("""
             SELECT
                 COUNT(*) as selectedNumber,
-                pr.questionOption.name as questionOptionName,
-                pr.questionOption.question.name as questionName
+                pr.questionOption.name as questionOptionName
             FROM
                 ParticipationResult pr
             JOIN
-                pr.questionOption q
+                pr.questionOption qo
             JOIN
                 pr.questionOption.question q
             WHERE q.form.id=:formId

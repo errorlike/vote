@@ -13,23 +13,23 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class StatisticsService {
-    //fixme maybe have > 100 percentage sum
+    // fixme maybe have > 100 percentage sum
     private final ParticipationResultRepository participationResultRepository;
 
     private final ParticipationRepository participationRepository;
 
     public List<StatisticsForBarChartDTO> getBarDataByFormId(long formId) {
-        List<StatisticsForBarChartProjection> barChartProjections =
-                participationResultRepository.getStatisticsForBarChartData(formId);
+        List<StatisticsForBarChartProjection> barChartProjections = participationResultRepository
+                .getStatisticsForBarChartData(formId);
         int participationNumber = participationRepository.countByForm_Id(formId);
 
         List<StatisticsForBarChartDTO> statisticsForBarChartDTOS = new ArrayList<>();
         barChartProjections.forEach(barChartProjection -> {
             StatisticsForBarChartDTO statisticsForBarChartDTO = StatisticsForBarChartDTO
                     .builder()
-                    .questionName(barChartProjection.getQuestionName())
                     .questionOptionName(barChartProjection.getQuestionOptionName())
                     .percentage(Math.round(barChartProjection.getSelectedNumber() * 100.0f / participationNumber))
+                    .selectedPerson(barChartProjection.getSelectedNumber())
                     .build();
             statisticsForBarChartDTOS.add(statisticsForBarChartDTO);
         });
