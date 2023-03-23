@@ -1,14 +1,9 @@
 package com.errorlike.vote.services;
 
-import com.errorlike.vote.configs.JwtUtil;
-import com.errorlike.vote.entities.User;
-import com.errorlike.vote.models.SecurityUser;
-import com.errorlike.vote.repositories.UserRepository;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.security.SignatureException;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,9 +12,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import com.errorlike.vote.configs.JwtUtil;
+import com.errorlike.vote.entities.User;
+import com.errorlike.vote.models.SecurityUser;
+import com.errorlike.vote.repositories.UserRepository;
+
+import io.jsonwebtoken.security.SignatureException;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
