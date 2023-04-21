@@ -32,6 +32,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final AuthEntryPointJwt authEntryPointJwt;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
     @Value("${frontend.url}")
     private String FRONTEND_URL;
 
@@ -57,6 +59,9 @@ public class SecurityConfig {
                         .mvcMatchers("/auth/**").permitAll()
                         .anyRequest()
                         .authenticated())
+                .exceptionHandling(handling -> handling
+                        .authenticationEntryPoint(authEntryPointJwt)
+                        .accessDeniedHandler(customAccessDeniedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(Customizer.withDefaults())
